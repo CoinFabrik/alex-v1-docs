@@ -6,12 +6,16 @@ paths:
       parameters: []
       responses:
         "200":
-          description: Successfully returning all existing swaps
+          description: Successfully returning all existing swaps.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllSwapsResponse"
         "403":
           description: Forbidden
         "404":
           description: Not found
-      summary: Returns all existing swaps with status
+      summary: Returns all existing swaps with status.
       tags: &ref_0
         - pool
   /v1/pool_stats/{pool_token_id}:
@@ -1021,6 +1025,66 @@ components:
       bearerFormat: JWT
       type: http
   schemas:
+    Swap:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 7
+        base:
+          type: string
+          example: token-alex
+        baseSymbol:
+          type: string
+          example: alex
+        baseId:
+          type: string
+          example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
+        quote:
+          type: string
+          example: token-wban
+        quoteSymbol:
+          type: string
+          example: BANANA
+        quoteId:
+          type: string
+          example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-wban
+        baseVolume:
+          type: number
+          example: 105.45894916044628
+        quoteVolume:
+          type: number
+          example: 98.15140304673803
+        lastBasePriceInUSD:
+          type: number
+          example: 0.03150216
+        lastQuotePriceInUSD:
+          type: number
+          example: 0.005409090542472804
+      required:
+        - id
+        - base
+        - baseSymbol
+        - baseId
+        - quote
+        - quoteSymbol
+        - quoteId
+        - baseVolume
+        - quoteVolume
+        - lastBasePriceInUSD
+        - lastQuotePriceInUSD
+    AllSwapsResponse:
+      type: object
+      properties:
+        data:
+          description: >-
+            List of all existing swap pairs with their current status, volumes
+            and prices.
+          type: array
+          items:
+            $ref: "#/components/schemas/Swap"
+      required:
+        - data
     Ticker:
       type: object
       properties:
