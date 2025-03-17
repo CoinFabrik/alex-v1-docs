@@ -8,15 +8,15 @@ paths:
       operationId: PoolController_getAllSwaps_v1
       parameters: []
       responses:
-        "200":
+        '200':
           description: Successfully returning all existing swaps.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AllSwapsResponse"
-        "403":
+                $ref: '#/components/schemas/AllSwapsResponse'
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns all available swap pairs
       tags: &ref_0
@@ -47,15 +47,15 @@ paths:
           description: Specifies number of data to be returned, default value is 10.
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning pool stats.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PoolStatsResponse"
-        "403":
+                $ref: '#/components/schemas/PoolStatsResponse'
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns pool stats
       tags: *ref_0
@@ -85,15 +85,15 @@ paths:
           description: Specifies number of data to be returned, default value is 10.
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning volumes.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PoolVolumeResponse"
-        "403":
+                $ref: '#/components/schemas/PoolVolumeResponse'
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns daily pool volume
       tags: *ref_0
@@ -119,11 +119,11 @@ paths:
           description: Specifies number of data to be returned, default value is 10.
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning volumes
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns daily volumes of token in time series
       tags: *ref_0
@@ -153,15 +153,15 @@ paths:
           description: Specifies number of data to be returned, default value is 10.
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning volumes.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PoolVolume7DayResponse"
-        "403":
+                $ref: '#/components/schemas/PoolVolume7DayResponse'
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns weekly pool volume
       tags: *ref_0
@@ -191,15 +191,15 @@ paths:
           description: Specifies number of data to be returned, default value is 10.
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning liquidity.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TokenLiquidityResponse"
-        "403":
+                $ref: '#/components/schemas/TokenLiquidityResponse'
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns pool liquidity
       tags: *ref_0
@@ -225,15 +225,15 @@ paths:
           description: Specifies number of data to be returned, default value is 10.
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning liquidity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TokenLiquidityResponse"
-        "403":
+                $ref: '#/components/schemas/TokenLiquidityResponse'
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns liquidity of token in time series
       tags: *ref_0
@@ -263,15 +263,15 @@ paths:
           description: Specifies number of data to be returned, default value is 10.
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning fee
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PoolFeeResponse"
-        "403":
+                $ref: '#/components/schemas/PoolFeeResponse'
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns pool fee
       tags: *ref_0
@@ -280,11 +280,11 @@ paths:
       operationId: StatsController_getTVL_v1
       parameters: []
       responses:
-        "200":
+        '200':
           description: Successfully returning TVL
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns total TVL(total value locked) value of ALEX platform
       tags: &ref_1
@@ -309,11 +309,11 @@ paths:
           description: Specifies number of data to be returned, default value is 10
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning liquidity
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns token TVL(total value locked) in time series
       tags: *ref_1
@@ -327,11 +327,11 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Successfully returning total supply
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns total supply of queried token eg. age000-governance-token
       tags: *ref_1
@@ -340,50 +340,58 @@ paths:
       operationId: StatsController_getCirculatingSupply_v1
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_1
   /v1/price/{token}:
     get:
+      description: >-
+        Returns the current price of the token and the block height at which the
+        price was synchronized
       operationId: PriceController_getPrice_v1
       parameters:
         - name: token
           required: true
           in: path
-          description: >-
-            name of token eg.
-            SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
+          description: Name of token.
           schema:
             oneOf:
               - type: string
               - type: integer
       responses:
-        "200":
+        '200':
           description: Successfully returning price
-        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPrice'
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns price of token
       tags: &ref_2
         - price
   /v1/pool_token_price/{pool_token_id}:
     get:
+      description: >-
+        Returns the current price of the pool token and the stacks block height
+        at which this status was recorded
       operationId: PriceController_getPoolTokenPrice_v1
       parameters:
         - name: pool_token_id
           required: true
           in: path
-          description: pool token id of swap pool eg. 13
+          description: Pool token ID of swap pool.
           schema:
             oneOf:
               - type: integer
       responses:
-        "200":
+        '200':
           description: Successfully returning Pool token price
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns pool token price value of ALEX platform
       tags: *ref_2
@@ -392,28 +400,32 @@ paths:
       operationId: PriceController_getAllPoolTokenPrice_v1
       parameters: []
       responses:
-        "200":
+        '200':
           description: Successfully returning all existing pool token stats
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns pool token price value of ALEX platform
       tags: *ref_2
   /v1/price_history/{token}:
     get:
+      description: Returns a list of the average prices of the token for each block height
       operationId: PriceController_getPriceHistory_v1
       parameters:
         - name: token
           required: true
           in: path
-          description: >-
-            name of token eg.
-            SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
+          description: Name of the token.
           schema:
             oneOf:
               - type: string
               - type: integer
+        - name: limit
+          required: false
+          in: query
+          description: Specifies number of data to be returned, default value is 10
+          schema: {}
         - name: order_by
           required: false
           in: query
@@ -436,30 +448,30 @@ paths:
           in: query
           description: Specifies the offset of data to be returned, default value is 0
           schema: {}
-        - name: limit
-          required: false
-          in: query
-          description: Specifies number of data to be returned, default value is 10
-          schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning price history
-        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPriceHistory'
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns price history of token
       tags: *ref_2
   /v1/price_history_15min/{token}:
     get:
+      description: >-
+        Returns a list of the average prices of the token for each 15min
+        interval
       operationId: PriceController_getPriceHistory15Min_v1
       parameters:
         - name: token
           required: true
           in: path
-          description: >-
-            name of token eg.
-            SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
+          description: Name of the token.
           schema:
             oneOf:
               - type: string
@@ -492,11 +504,11 @@ paths:
           description: Specifies number of data to be returned, default value is 10
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning price history 15min
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns price history 15min of token
       tags: *ref_2
@@ -505,11 +517,11 @@ paths:
       operationId: DexController_getAllPairs_v1
       parameters: []
       responses:
-        "200":
+        '200':
           description: Successfully returning all existing pairs
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns all existing pairs
       tags: &ref_3
@@ -519,11 +531,11 @@ paths:
       operationId: DexController_getAllTickers_v1
       parameters: []
       responses:
-        "200":
+        '200':
           description: Successfully returning all markets statistics for the last 24 hours
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns all markets statistics for the last 24 hours
       tags: *ref_3
@@ -542,11 +554,11 @@ paths:
               - type: string
               - type: integer
       responses:
-        "200":
+        '200':
           description: Successfully returning all historical trades of certain ticker
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       tags: *ref_3
   /v1/orderbook/{ticker}:
@@ -562,11 +574,11 @@ paths:
               - type: string
               - type: integer
       responses:
-        "200":
+        '200':
           description: Successfully returning all historical trades of certain ticker
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       tags: *ref_3
   /v1/historical_swaps/{pool_token_id}:
@@ -588,11 +600,11 @@ paths:
             value is 1000
           schema: {}
       responses:
-        "200":
+        '200':
           description: Successfully returning all historical trades of certain ticker
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not found
       summary: Returns all existing historical trades
       tags: *ref_3
@@ -601,8 +613,8 @@ paths:
       operationId: CoinGeckoController_getPairsV2_v2
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: &ref_4
         - coin-gecko
   /v2/coin-gecko/tickers:
@@ -610,14 +622,14 @@ paths:
       operationId: CoinGeckoController_getTickersV2_v2
       parameters: []
       responses:
-        "200":
-          description: "Get all tickers from AMM "
+        '200':
+          description: 'Get all tickers from AMM '
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Ticker"
+                  $ref: '#/components/schemas/Ticker'
       tags: *ref_4
   /v1/brc20/user-balance:
     get:
@@ -636,12 +648,12 @@ paths:
             example: bc1phpa7ym29gdwulxv62c20su2nh2039vad04hhawyuwztt54weff2suawxly
             type: string
       responses:
-        "200":
+        '200':
           description: Successfully returning user balance
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserBalanceResponse"
+                $ref: '#/components/schemas/UserBalanceResponse'
       tags: &ref_5
         - brc20
   /v1/brc20/bitcoin-tx-indexed:
@@ -667,20 +679,20 @@ paths:
             example: 0
             type: number
       responses:
-        "200":
+        '200':
           description: Successfully returning bitcoin tx indexed
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BitcoinTxIndexedResponse"
+                $ref: '#/components/schemas/BitcoinTxIndexedResponse'
       tags: *ref_5
   /v2/stx-tools/pools:
     get:
       operationId: StxToolsController_getPools_v2
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: &ref_6
         - StxTools
   /v2/stx-tools/token-prices:
@@ -688,16 +700,16 @@ paths:
       operationId: StxToolsController_getTokenPrices_v2
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_6
   /v2/stx-tools:
     get:
       operationId: StxToolsController_getAll_v2
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_6
   /v1/galxe/check-bridged:
     get:
@@ -724,8 +736,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags:
         - Galxe
   /v1/public/token-prices:
@@ -733,8 +745,8 @@ paths:
       operationId: PublicController_getTokenPrices_v1
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: &ref_7
         - Public
   /v2/public/token-prices:
@@ -742,8 +754,8 @@ paths:
       operationId: PublicController_getTokenPricesV2_v2
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/history-prices:
     get:
@@ -790,8 +802,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/synced-blocks:
     get:
@@ -828,72 +840,72 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/token-mappings:
     get:
       operationId: PublicController_getTokenMapping_v1
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v2/public/token-mappings:
     get:
       operationId: PublicController_getTokenMappingV2_v2
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/pools:
     get:
       operationId: PublicController_getPools_v1
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v2/public/pools:
     get:
       operationId: PublicController_getPoolsV2_v2
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/pairs:
     get:
       operationId: PublicController_getPairs_v1
       parameters: []
       responses:
-        "200":
-          description: "Get all token pairs from AMM "
+        '200':
+          description: 'Get all token pairs from AMM '
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TokenPairResponse"
+                $ref: '#/components/schemas/TokenPairResponse'
       tags: *ref_7
   /v1/public/amm-pool-stats:
     get:
       operationId: PublicController_getAmmPoolStats_v1
       parameters: []
       responses:
-        "200":
+        '200':
           description: Get all stats of AMM pools
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AmmPoolStatsResponse"
+                $ref: '#/components/schemas/AmmPoolStatsResponse'
       tags: *ref_7
   /v1/public/hackers:
     get:
       operationId: PublicController_getHackers_v1
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/addresses/{address}/auto-alex-v3-rewards:
     get:
@@ -905,8 +917,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/auto-alex-v3/rewards:
     get:
@@ -918,8 +930,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/lqstx/rewards:
     get:
@@ -931,8 +943,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/addresses/{address}/lqstx-rewards:
     get:
@@ -944,8 +956,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v2/public/addresses/{address}/auto-alex-v3-rewards:
     get:
@@ -957,8 +969,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v2/public/auto-alex-v3/rewards:
     get:
@@ -970,8 +982,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v2/public/lqstx/rewards:
     get:
@@ -983,8 +995,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v2/public/addresses/{address}/lqstx-rewards:
     get:
@@ -996,16 +1008,16 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/treasury-grant-records:
     get:
       operationId: PublicController_getTreasuryGrantRecords_v1
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/public/surge-vote-analysis/{id}:
     get:
@@ -1017,16 +1029,16 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_7
   /v1/_internal/hackers:
     get:
       operationId: InternalController_getHackers_v1
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: &ref_8
         - Internal
   /v1/_internal/addresses/{address}/flow-transactions:
@@ -1039,22 +1051,22 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags: *ref_8
   /v1/malicious:
     get:
       operationId: MaliciousController_getHackers_v1
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       tags:
         - Malicious
 info:
   title: ALEX REST API
   description: ALEX Open API service
-  version: "1.0"
+  version: '1.0'
   contact:
     name: ALEX Development Team
     url: https://www.alexgo.io
@@ -1129,7 +1141,7 @@ components:
             current volumes and prices in USD.
           type: array
           items:
-            $ref: "#/components/schemas/Swap"
+            $ref: '#/components/schemas/Swap'
       required:
         - data
     PoolStatus:
@@ -1221,7 +1233,7 @@ components:
           description: Bitcoin's block height
         sync_at:
           type: string
-          example: "2025-03-10T10:33:32.378+00:00"
+          example: '2025-03-10T10:33:32.378+00:00'
           description: Timestamp when this data was synchronized
       required:
         - pool_token
@@ -1260,7 +1272,7 @@ components:
             with a "_y" suffix for quote token.
           type: array
           items:
-            $ref: "#/components/schemas/PoolStatus"
+            $ref: '#/components/schemas/PoolStatus'
       required:
         - token
         - pool_status
@@ -1291,7 +1303,7 @@ components:
             monetary values use base token (token X) units
           type: array
           items:
-            $ref: "#/components/schemas/VolumeValue"
+            $ref: '#/components/schemas/VolumeValue'
       required:
         - token
         - volume_values
@@ -1322,7 +1334,7 @@ components:
             values use base token (token X) units
           type: array
           items:
-            $ref: "#/components/schemas/VolumeValue7Day"
+            $ref: '#/components/schemas/VolumeValue7Day'
       required:
         - token
         - volume_values
@@ -1353,7 +1365,7 @@ components:
             values use base token (token X) units
           type: array
           items:
-            $ref: "#/components/schemas/TokenLiquidityValue"
+            $ref: '#/components/schemas/TokenLiquidityValue'
       required:
         - token
         - liquidity_value
@@ -1387,10 +1399,68 @@ components:
           description: Array of fee rebate records ordered by block height.
           type: array
           items:
-            $ref: "#/components/schemas/PoolFeeValue"
+            $ref: '#/components/schemas/PoolFeeValue'
       required:
         - pool_token
         - fee_value
+    TokenPrice:
+      type: object
+      properties:
+        token:
+          type: string
+          example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
+          description: Contract identifier for token in the pool
+        price:
+          type: number
+          example: 0.03118367
+          description: The current price of the token
+        syncedBlockHeight:
+          type: number
+          example: 793308
+          description: The block height at which the price was synchronized
+      required:
+        - token
+        - price
+        - syncedBlockHeight
+    Prices:
+      type: object
+      properties:
+        avg_price_usd:
+          type: number
+          example: 0.03131814
+          description: The average price of the token
+        block_height:
+          type: number
+          example: 793335
+          description: Stacks block height at which this status was recorded
+        sync_at:
+          type: number
+          example: 1742219377
+          description: The time at which the status was recorded
+        token:
+          type: string
+          example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
+          description: Contract identifier for token in the pool
+      required:
+        - avg_price_usd
+        - block_height
+        - sync_at
+        - token
+    TokenPriceHistory:
+      type: object
+      properties:
+        token:
+          type: string
+          example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
+          description: Contract identifier for token in the pool
+        prices:
+          description: Array of the average prices of the token for each block height
+          type: array
+          items:
+            $ref: '#/components/schemas/Prices'
+      required:
+        - token
+        - prices
     Ticker:
       type: object
       properties:
@@ -1445,11 +1515,11 @@ components:
         balance:
           type: string
           description: user balance of given asset
-          example: "1000000000000000"
+          example: '1000000000000000'
         up-to-block:
           type: string
           description: latest block height
-          example: "811363"
+          example: '811363'
       required:
         - balance
         - up-to-block
@@ -1467,7 +1537,7 @@ components:
         amt:
           type: string
           description: amount of assets
-          example: "10000000000000000000000000000"
+          example: '10000000000000000000000000000'
         tick:
           type: string
           description: asset id
@@ -1507,7 +1577,7 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/AmmTokenPair"
+            $ref: '#/components/schemas/AmmTokenPair'
       required:
         - data
     AmmPoolStats:
@@ -1524,10 +1594,10 @@ components:
           example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
         tvl:
           type: string
-          example: "4800976.56479834"
+          example: '4800976.56479834'
         apy:
           type: string
-          example: "0.017392667325066296"
+          example: '0.017392667325066296'
       required:
         - pool_id
         - target_token
@@ -1540,6 +1610,6 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/AmmPoolStats"
+            $ref: '#/components/schemas/AmmPoolStats'
       required:
         - data
