@@ -277,11 +277,20 @@ paths:
       tags: *ref_0
   /v1/stats/tvl:
     get:
+      description: >-
+        etches the total value locked (TVL) in the ALEX platform. The response
+        includes the type of TVL, total supply of liquidity provider tokens,
+        total value of the reserve pool, combined TVL, block height at which the
+        TVL was recorded, and the timestamp when the TVL was last updated.
       operationId: StatsController_getTVL_v1
       parameters: []
       responses:
         "200":
           description: Successfully returning TVL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TotalTVL"
         "403":
           description: Forbidden
         "404":
@@ -291,13 +300,20 @@ paths:
         - stats
   /v1/stats/tvl/{token}:
     get:
+      description: >-
+        Fetches a time series of the total value locked (TVL) for a specific
+        token on the ALEX platform. The response includes the block height, burn
+        block time, synchronization timestamp, token identifier, and TVL value
+        for each recorded interval.
       operationId: StatsController_getTokenTVL_v1
       parameters:
         - name: token
           required: true
           in: path
+          description: Name of token.
           schema:
-            type: string
+            oneOf:
+              - type: string
         - name: offset
           required: false
           in: query
@@ -319,13 +335,19 @@ paths:
       tags: *ref_1
   /v1/stats/total_supply/{token}:
     get:
+      description: >-
+        Fetches the total supply of the specified token on the ALEX platform.
+        The response includes the block height at which the total supply was
+        recorded, the token identifier, and the total supply value.
       operationId: StatsController_getTotalSupply_v1
       parameters:
         - name: token
           required: true
           in: path
+          description: Name of token.
           schema:
-            type: string
+            oneOf:
+              - type: string
       responses:
         "200":
           description: Successfully returning total supply
@@ -333,15 +355,25 @@ paths:
           description: Forbidden
         "404":
           description: Not found
-      summary: Returns total supply of queried token eg. age000-governance-token
+      summary: Returns total supply of the queried token
       tags: *ref_1
   /v1/stats/circulating_supply/age000-governance-token:
     get:
+      description: >-
+        Fetches the circulating supply of the age000-governance-token on the
+        ALEX platform. The response includes the circulating supply value, the
+        number of decimals, the token name, and the block height at which the
+        circulating supply was recorded.
       operationId: StatsController_getCirculatingSupply_v1
       parameters: []
       responses:
         "200":
-          description: ""
+          description: Successfully returning total supply
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+      summary: Returns circulating supply of the age000-governance-token
       tags: *ref_1
   /v1/price/{token}:
     get:
@@ -389,6 +421,10 @@ paths:
       responses:
         "200":
           description: Successfully returning Pool token price
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PoolTokenPrice"
         "403":
           description: Forbidden
         "404":
@@ -403,6 +439,12 @@ paths:
       responses:
         "200":
           description: Successfully returning all existing pool token stats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PoolTokenStats"
         "403":
           description: Forbidden
         "404":
@@ -1353,6 +1395,43 @@ components:
       required:
         - pool_token
         - fee_value
+    TotalTVL:
+      type: object
+      properties:
+        type:
+          type: string
+          example: Total TVL in ALEX Platform
+          description: Type of TVL being reported.
+        lp_token_supply:
+          type: number
+          example: 16490364.062874101
+          description: The total supply of liquidity provider tokens.
+        reserve_pool_value:
+          type: number
+          example: 15097746.975137029
+          description: The total value of the reserve pool.
+        tvl:
+          type: number
+          example: 31588111.03801113
+          description: >-
+            The total value locked (TVL) in the ALEX platform, combining all
+            pools and reserves.
+        block_height:
+          type: number
+          example: 799443
+          description: The block height at which the TVL was last recorded.
+        updated_at:
+          format: date-time
+          type: string
+          example: "2025-03-18T13:47:45.249+00:00"
+          description: The timestamp when the TVL was last updated.
+      required:
+        - type
+        - lp_token_supply
+        - reserve_pool_value
+        - tvl
+        - block_height
+        - updated_at
     TokenPrice:
       type: object
       properties:
@@ -1372,6 +1451,64 @@ components:
         - token
         - price
         - syncedBlockHeight
+    PoolTokenPrice:
+      type: object
+      properties:
+        pool_token:
+          type: number
+          example: 13
+          description: Pool token identifier
+        price:
+          type: number
+          example: 1.8186610911606693e-7
+          description: The current price of the pool token
+        block_height:
+          type: number
+          example: 799222
+          description: Block height at which the price was recorded
+      required:
+        - pool_token
+        - price
+        - block_height
+    PoolTokenStats:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 13
+        pool_token:
+          type: string
+          example: 13
+          description: Pool token identifier
+        price:
+          type: number
+          example: 1.881276488329545e-7
+          description: The current price of the pool token
+        total_supply:
+          type: number
+          example: 21527396262050.875
+          description: Total supply of the pool token
+        reserved_balance:
+          type: number
+          example: 21527396262050.875
+          description: Reserved balance of the pool token
+        block_height:
+          type: number
+          example: 793384
+          description: Block height at which the stats were recorded
+        updated_at:
+          format: date-time
+          type: string
+          example: "2025-03-17T13:59:07.028+00:00"
+          description: Timestamp at which the stats were last updated
+      required:
+        - id
+        - pool_token
+        - price
+        - total_supply
+        - reserved_balance
+        - block_height
+        - updated_at
     Prices:
       type: object
       properties:
@@ -1384,7 +1521,8 @@ components:
           example: 793335
           description: Stacks block height at which this status was recorded
         sync_at:
-          type: number
+          format: int64
+          type: integer
           example: 1742219377
           description: The time at which the status was recorded
         token:
