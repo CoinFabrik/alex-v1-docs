@@ -442,9 +442,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PoolTokenStats"
+                $ref: "#/components/schemas/PoolTokenStats"
         "403":
           description: Forbidden
         "404":
@@ -503,6 +501,61 @@ paths:
         "404":
           description: Not found
       summary: Returns price history of token
+      tags: *ref_2
+  /v1/v1/pairs:
+    get:
+      description: >-
+        Returns a list of the average prices of the token for each 15min
+        interval
+      operationId: PriceController_getPriceHistory15Min_v1
+      parameters:
+        - name: token
+          required: true
+          in: path
+          description: Name of the token.
+          schema:
+            oneOf:
+              - type: string
+              - type: integer
+        - name: order_by
+          required: false
+          in: query
+          description: >-
+            Specifies the order of block height to be returned, default value is
+            desc
+          schema: {}
+        - name: end_ts
+          required: true
+          in: query
+          description: Specifies the end unix timestamp of data to be returned
+          schema: {}
+        - name: start_ts
+          required: true
+          in: query
+          description: Specifies the start unix timestamp of data to be returned
+          schema: {}
+        - name: offset
+          required: false
+          in: query
+          description: Specifies the offset of data to be returned, default value is 0
+          schema: {}
+        - name: limit
+          required: false
+          in: query
+          description: Specifies number of data to be returned, default value is 10
+          schema: {}
+      responses:
+        "200":
+          description: Successfully returning price history 15min
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenPriceHistory"
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+      summary: Returns price history 15min of token
       tags: *ref_2
   /v1/pairs:
     get:
