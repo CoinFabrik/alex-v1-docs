@@ -277,11 +277,7 @@ paths:
       tags: *ref_0
   /v1/stats/tvl:
     get:
-      description: >-
-        etches the total value locked (TVL) in the ALEX platform. The response
-        includes the type of TVL, total supply of liquidity provider tokens,
-        total value of the reserve pool, combined TVL, block height at which the
-        TVL was recorded, and the timestamp when the TVL was last updated.
+      description: Fetches the total value locked (TVL) in the ALEX platform.
       operationId: StatsController_getTVL_v1
       parameters: []
       responses:
@@ -295,16 +291,14 @@ paths:
           description: Forbidden
         "404":
           description: Not found
-      summary: Returns total TVL(total value locked) value of ALEX platform
+      summary: Returns total TVL value of ALEX platform
       tags: &ref_1
         - stats
   /v1/stats/tvl/{token}:
     get:
       description: >-
         Fetches a time series of the total value locked (TVL) for a specific
-        token on the ALEX platform. The response includes the block height, burn
-        block time, synchronization timestamp, token identifier, and TVL value
-        for each recorded interval.
+        token on the ALEX platform.
       operationId: StatsController_getTokenTVL_v1
       parameters:
         - name: token
@@ -327,11 +321,15 @@ paths:
       responses:
         "200":
           description: Successfully returning liquidity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LaplaceTokenTvlReference"
         "403":
           description: Forbidden
         "404":
           description: Not found
-      summary: Returns token TVL(total value locked) in time series
+      summary: Returns token TVL in time series
       tags: *ref_1
   /v1/stats/total_supply/{token}:
     get:
@@ -1485,6 +1483,36 @@ components:
         - tvl
         - block_height
         - updated_at
+    LaplaceTokenTvlReference:
+      type: object
+      properties:
+        token:
+          type: string
+          example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
+          description: The token identifier.
+        tvl:
+          type: number
+          example: 31588111.03801113
+          description: The total value locked (TVL) for the token.
+        block_height:
+          type: number
+          example: 799443
+          description: The block height at which the TVL was recorded.
+        burn_block_time:
+          type: number
+          example: 1678901234
+          description: The burn block time when the TVL was recorded.
+        sync_at:
+          format: date-time
+          type: string
+          example: "2025-03-18T13:47:45.249+00:00"
+          description: The timestamp when the TVL was last synchronized.
+      required:
+        - token
+        - tvl
+        - block_height
+        - burn_block_time
+        - sync_at
     TokenPrice:
       type: object
       properties:
