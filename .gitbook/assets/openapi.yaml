@@ -333,10 +333,7 @@ paths:
       tags: *ref_1
   /v1/stats/total_supply/{token}:
     get:
-      description: >-
-        Fetches the total supply of the specified token on the ALEX platform.
-        The response includes the block height at which the total supply was
-        recorded, the token identifier, and the total supply value.
+      description: Fetches the total supply of the specified token on the ALEX platform.
       operationId: StatsController_getTotalSupply_v1
       parameters:
         - name: token
@@ -349,6 +346,10 @@ paths:
       responses:
         "200":
           description: Successfully returning total supply
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SinkTokenStatsReference"
         "403":
           description: Forbidden
         "404":
@@ -359,14 +360,16 @@ paths:
     get:
       description: >-
         Fetches the circulating supply of the age000-governance-token on the
-        ALEX platform. The response includes the circulating supply value, the
-        number of decimals, the token name, and the block height at which the
-        circulating supply was recorded.
+        ALEX platform.
       operationId: StatsController_getCirculatingSupply_v1
       parameters: []
       responses:
         "200":
           description: Successfully returning total supply
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LaplaceTokenStatsReference"
         "403":
           description: Forbidden
         "404":
@@ -1492,20 +1495,20 @@ components:
           description: The token identifier.
         tvl:
           type: number
-          example: 31588111.03801113
+          example: 3551330.078772197
           description: The total value locked (TVL) for the token.
         block_height:
           type: number
-          example: 799443
+          example: 805148
           description: The block height at which the TVL was recorded.
         burn_block_time:
           type: number
-          example: 1678901234
+          example: 1742389269
           description: The burn block time when the TVL was recorded.
         sync_at:
           format: date-time
           type: string
-          example: "2025-03-18T13:47:45.249+00:00"
+          example: "2025-03-19T13:04:43.507+00:00"
           description: The timestamp when the TVL was last synchronized.
       required:
         - token
@@ -1513,6 +1516,49 @@ components:
         - block_height
         - burn_block_time
         - sync_at
+    SinkTokenStatsReference:
+      type: object
+      properties:
+        token:
+          type: string
+          example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
+          description: The token identifier.
+        block_height:
+          type: number
+          example: 804936
+          description: The block height at which the TVL was recorded.
+        total_supply:
+          type: number
+          example: 590496986.162147
+          description: The total supply of the token.
+      required:
+        - token
+        - block_height
+        - total_supply
+    LaplaceTokenStatsReference:
+      type: object
+      properties:
+        token_name:
+          type: string
+          example: age000-governance-token
+          description: The token name.
+        decimals:
+          type: number
+          example: 8
+          description: The number of decimals used for the token.
+        block_height:
+          type: number
+          example: 805213
+          description: The block height at which the TVL was recorded.
+        total_supply:
+          type: number
+          example: 824791508.1801852
+          description: The circulating supply of the token.
+      required:
+        - token_name
+        - decimals
+        - block_height
+        - total_supply
     TokenPrice:
       type: object
       properties:
