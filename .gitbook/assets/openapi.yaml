@@ -560,11 +560,18 @@ paths:
       tags: *ref_2
   /v1/pairs:
     get:
+      description: >-
+        Fetches a list of all existing trading pairs available on the ALEX
+        platform.
       operationId: DexController_getAllPairs_v1
       parameters: []
       responses:
         "200":
           description: Successfully returning all existing pairs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pair"
         "403":
           description: Forbidden
         "404":
@@ -574,11 +581,16 @@ paths:
         - dex
   /v1/tickers:
     get:
+      description: "Fetches a list of all markets statistics for the last 24 hours. "
       operationId: DexController_getAllTickers_v1
       parameters: []
       responses:
         "200":
           description: Successfully returning all markets statistics for the last 24 hours
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticker"
         "403":
           description: Forbidden
         "404":
@@ -587,14 +599,15 @@ paths:
       tags: *ref_3
   /v1/ticker/{ticker_id}:
     get:
+      description: >-
+        Fetches a list of all markets statistics for a certain ticker, for the
+        last 24 hours
       operationId: DexController_getTicker_v1
       parameters:
         - name: ticker_id
           required: true
           in: path
-          description: >-
-            A ticker with delimiter between different cryptoassets eg.
-            SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex_stx
+          description: A ticker with delimiter between different cryptoassets.
           schema:
             oneOf:
               - type: string
@@ -602,19 +615,27 @@ paths:
       responses:
         "200":
           description: Successfully returning all historical trades of certain ticker
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticker"
         "403":
           description: Forbidden
         "404":
           description: Not found
+      summary: Returns all markets statistics for a certain ticker
       tags: *ref_3
   /v1/orderbook/{ticker}:
     get:
+      description: >-
+        Fetches the orderbook, returning all historical trades of a certain
+        ticker
       operationId: DexController_getOrderBookTicker_v1
       parameters:
         - name: ticker
           required: true
           in: path
-          description: A ticker with delimiter between different cryptoassets eg. ALEX_WSLM
+          description: A ticker with delimiter between different cryptoassets.
           schema:
             oneOf:
               - type: string
@@ -626,15 +647,19 @@ paths:
           description: Forbidden
         "404":
           description: Not found
+      summary: Returns the orderbook of a certain ticker
       tags: *ref_3
   /v1/historical_swaps/{pool_token_id}:
     get:
+      description: >-
+        Fetches a list of all existing historical trades available on the ALEX
+        platform.
       operationId: DexController_getHistoricalTrades_v1
       parameters:
         - name: pool_token_id
           required: true
           in: path
-          description: pool token id of swap pool eg. 13
+          description: pool token id of swap pool.
           schema:
             oneOf:
               - type: integer
@@ -1676,6 +1701,26 @@ components:
       required:
         - token
         - prices
+    Pair:
+      type: object
+      properties:
+        ticker:
+          type: string
+          example: >-
+            SP3K8BC0PPEVCV7NZ6QSRWPQ2JE9E5B6N3PA0KBR9.brc20-tx20_SP2XD7417HGPRTREMKF748VNEQPDRR0RMANB7X1NK.token-abtc
+          description: Ticker of the pair
+        base:
+          type: string
+          example: brc20-tx20
+          description: Base currency of the pair
+        target:
+          type: string
+          example: bridged-btc
+          description: Target currency of the pair
+      required:
+        - ticker
+        - base
+        - target
     Ticker:
       type: object
       properties:
