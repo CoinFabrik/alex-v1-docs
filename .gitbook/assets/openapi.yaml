@@ -75,6 +75,7 @@ paths:
           schema:
             oneOf:
               - type: integer
+                example: 13
         - name: offset
           required: false
           in: query
@@ -109,6 +110,7 @@ paths:
           schema:
             oneOf:
               - type: integer
+                example: 13
         - name: offset
           required: false
           in: query
@@ -143,6 +145,7 @@ paths:
           schema:
             oneOf:
               - type: integer
+                example: 13
         - name: offset
           required: false
           in: query
@@ -181,6 +184,7 @@ paths:
           schema:
             oneOf:
               - type: integer
+                example: 13
         - name: offset
           required: false
           in: query
@@ -215,6 +219,7 @@ paths:
           schema:
             oneOf:
               - type: integer
+                example: 13
         - name: offset
           required: false
           in: query
@@ -253,6 +258,7 @@ paths:
           schema:
             oneOf:
               - type: integer
+                example: 13
         - name: offset
           required: false
           in: query
@@ -309,6 +315,7 @@ paths:
           schema:
             oneOf:
               - type: string
+                example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
         - name: offset
           required: false
           in: query
@@ -344,6 +351,7 @@ paths:
           schema:
             oneOf:
               - type: string
+                example: age000-governance-token
       responses:
         "200":
           description: Successfully returning total supply
@@ -391,6 +399,7 @@ paths:
           schema:
             oneOf:
               - type: string
+                example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
               - type: integer
       responses:
         "200":
@@ -420,6 +429,7 @@ paths:
           schema:
             oneOf:
               - type: integer
+                example: 13
       responses:
         "200":
           description: Successfully returning Pool token price
@@ -463,6 +473,7 @@ paths:
           schema:
             oneOf:
               - type: string
+                example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
               - type: integer
         - name: limit
           required: false
@@ -518,6 +529,7 @@ paths:
           schema:
             oneOf:
               - type: string
+                example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
               - type: integer
         - name: order_by
           required: false
@@ -612,6 +624,7 @@ paths:
           schema:
             oneOf:
               - type: string
+                example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex_stx
               - type: integer
       responses:
         "200":
@@ -640,6 +653,7 @@ paths:
           schema:
             oneOf:
               - type: string
+                example: ALEX_WSLM
               - type: integer
       responses:
         "200":
@@ -664,6 +678,7 @@ paths:
           schema:
             oneOf:
               - type: integer
+                example: 13
         - name: limit
           required: true
           in: query
