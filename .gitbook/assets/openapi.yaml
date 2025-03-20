@@ -33,10 +33,10 @@ paths:
           required: true
           in: path
           description: Pool token ID of swap pool.
-          example: 13
           schema:
             oneOf:
               - type: integer
+                example: 13
         - name: offset
           required: false
           in: query
