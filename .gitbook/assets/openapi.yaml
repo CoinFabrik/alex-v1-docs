@@ -33,9 +33,7 @@ paths:
           required: true
           in: path
           description: Pool token ID of swap pool.
-          examples:
-            Example 1:
-              value: 13
+          example: 13
           schema:
             oneOf:
               - type: integer
