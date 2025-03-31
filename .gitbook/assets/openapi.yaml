@@ -289,11 +289,9 @@ paths:
   /v1/stats/tvl:
     get:
       description: >-
-        Returns the total value locked (TVL) across all pools on the ALEX
-        platform. The response includes details such as the total supply of
-        liquidity provider tokens, the total value of the reserve pool, the
-        combined TVL, the block height at which the TVL was recorded, and the
-        timestamp of the last update.
+        Returns the total value locked (TVL) across all pools on the ALEX DEX.
+        Data is provided as a time series, with each entry corresponding to a
+        specific Stacks block height.
       operationId: StatsController_getTVL_v1
       parameters: []
       responses:
@@ -307,21 +305,21 @@ paths:
           description: Forbidden
         "404":
           description: Not found
-      summary: Returns total TVL value of ALEX platform
+      summary: Returns total TVL value of ALEX DEX
       tags: &ref_1
         - stats
   /v1/stats/tvl/{token}:
     get:
       description: >-
         Returns a time series of the total value locked (TVL) for a specific
-        token on the ALEX platform. The response includes TVL values, block
-        heights, timestamps, and token identifiers for each recorded interval.
+        token on the ALEX DEX. The response includes TVL values, block heights,
+        timestamps, and token identifiers for each recorded interval.
       operationId: StatsController_getTokenTVL_v1
       parameters:
         - name: token
           required: true
           in: path
-          description: The unique identifier or name of the token.
+          description: The Stacks principal of the token contract.
           schema:
             oneOf:
               - type: string
@@ -352,7 +350,7 @@ paths:
   /v1/stats/total_supply/{token}:
     get:
       description: >-
-        Returns the total supply of a specific token on the ALEX platform. The
+        Returns the total supply of a specific token on the ALEX DEX. The
         response includes the token identifier, the total supply value, and the
         block height at which the total supply was recorded.
       operationId: StatsController_getTotalSupply_v1
@@ -360,7 +358,7 @@ paths:
         - name: token
           required: true
           in: path
-          description: The unique identifier or name of the token.
+          description: The Stacks principal of the token contract.
           schema:
             oneOf:
               - type: string
@@ -382,8 +380,8 @@ paths:
     get:
       description: >-
         Returns the circulating supply of the age000-governance-token on the
-        ALEX platform. The response includes the circulating supply value, the
-        number of decimals, the token name, and the block height at which the
+        ALEX DEX. The response includes the circulating supply value, the number
+        of decimals, the token name, and the block height at which the
         circulating supply was recorded.
       operationId: StatsController_getCirculatingSupply_v1
       parameters: []
@@ -411,12 +409,13 @@ paths:
         - name: token
           required: true
           in: path
-          description: The unique identifier or name of the token.
+          description: >-
+            The unique identifier of the token, which is Stacks principal of the
+            token contract.
           schema:
             oneOf:
               - type: string
                 example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
-              - type: integer
       responses:
         "200":
           description: Successfully returning price
@@ -434,7 +433,7 @@ paths:
   /v1/pool_token_price/{pool_token_id}:
     get:
       description: >-
-        Returns the current price of a specific pool token on the ALEX platform,
+        Returns the current price of a specific pool token on the ALEX DEX,
         along with the block height at which the price was recorded.
       operationId: PriceController_getPoolTokenPrice_v1
       parameters:
@@ -457,14 +456,14 @@ paths:
           description: Forbidden
         "404":
           description: Not found
-      summary: Returns pool token price value of ALEX platform
+      summary: Returns pool token price value of ALEX DEX
       tags: *ref_2
   /v1/pool_token_stats:
     get:
       description: >-
-        Returns a list of all existing pool token statistics on the ALEX
-        platform, including details such as token prices, total supply, reserved
-        balances, and the block height at which these statistics were recorded.
+        Returns a list of all existing pool token statistics on the ALEX DEX,
+        including details such as token prices, total supply, reserved balances,
+        and the block height at which these statistics were recorded.
       operationId: PriceController_getAllPoolTokenPrice_v1
       parameters: []
       responses:
@@ -478,7 +477,7 @@ paths:
           description: Forbidden
         "404":
           description: Not found
-      summary: Returns all existing pool token stats of the ALEX platform
+      summary: Returns all existing pool token stats of the ALEX DEX
       tags: *ref_2
   /v1/price_history/{token}:
     get:
@@ -491,7 +490,9 @@ paths:
         - name: token
           required: true
           in: path
-          description: The unique identifier or name of the token.
+          description: >-
+            The unique identifier of the token, which is Stacks principal of the
+            token contract.
           schema:
             oneOf:
               - type: string
@@ -548,7 +549,9 @@ paths:
         - name: token
           required: true
           in: path
-          description: The unique identifier or name of the token.
+          description: >-
+            The unique identifier of the token, which is Stacks principal of the
+            token contract.
           schema:
             oneOf:
               - type: string
@@ -597,9 +600,9 @@ paths:
   /v1/pairs:
     get:
       description: >-
-        Returns a list of all active trading pairs available on the ALEX
-        platform. Each pair includes details such as the base and target
-        currencies, their symbols, and unique identifiers.
+        Returns a list of all active trading pairs on the ALEX AMM. Each pair
+        includes the pool ticker (formed by the Stacks principals of the token
+        pair) and the symbols of the base and target tokens.
       operationId: DexController_getAllPairs_v1
       parameters: []
       responses:
@@ -608,7 +611,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pair"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pair"
         "403":
           description: Forbidden
         "404":
@@ -620,7 +625,7 @@ paths:
     get:
       description: >-
         Returns a list of market statistics for all trading pairs on the ALEX
-        platform over the last 24 hours. The response includes trading volumes,
+        DEX over the last 24 hours. The response includes trading volumes,
         prices, and other key metrics for each pair.
       operationId: DexController_getAllTickers_v1
       parameters: []
@@ -648,11 +653,14 @@ paths:
         - name: ticker_id
           required: true
           in: path
-          description: A ticker with delimiter between different cryptoassets.
+          description: >-
+            Unique identifier of the pool, consisting of the token principals of
+            each token delimited by an underscore.
           schema:
             oneOf:
               - type: string
-                example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex_stx
+                example: >-
+                  SP2C2YFP12AJZB4MABJBAJ55XECVS7E4PMMZ89YZR.usda-token_SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
               - type: integer
       responses:
         "200":
@@ -677,7 +685,9 @@ paths:
         - name: ticker
           required: true
           in: path
-          description: A ticker with delimiter between different cryptoassets.
+          description: >-
+            Unique identifier of the pool, consisting of the token principals of
+            each token delimited by an underscore.
           schema:
             oneOf:
               - type: string
@@ -696,14 +706,14 @@ paths:
     get:
       description: >-
         Returns a list of all historical trades for a specific pool token on the
-        ALEX platform. The response includes trade details such as volumes,
-        prices, and timestamps for each recorded trade.
+        ALEX DEX. The response includes trade details such as volumes, prices,
+        and timestamps for each recorded trade.
       operationId: DexController_getHistoricalTrades_v1
       parameters:
         - name: pool_token_id
           required: true
           in: path
-          description: Pool token id of swap pool.
+          description: Pool token ID of swap pool.
           schema:
             oneOf:
               - type: integer
@@ -1524,7 +1534,7 @@ components:
       properties:
         type:
           type: string
-          example: Total TVL in ALEX Platform
+          example: Total TVL in ALEX DEX
           description: Type of TVL being reported.
         lp_token_supply:
           type: number
@@ -1538,8 +1548,8 @@ components:
           type: number
           example: 31588111.03801113
           description: >-
-            The total value locked (TVL) in the ALEX platform, combining all
-            pools and reserves.
+            The total value locked (TVL) in the ALEX DEX, combining all pools
+            and reserves.
         block_height:
           type: number
           example: 799443
@@ -1562,7 +1572,9 @@ components:
         token:
           type: string
           example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
-          description: The token identifier.
+          description: >-
+            The token identifier, which is the Stacks principal of the token
+            contract.
         tvl:
           type: number
           example: 3551330.078772197
@@ -1592,7 +1604,9 @@ components:
         token:
           type: string
           example: SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.token-alex
-          description: The token identifier.
+          description: >-
+            The token identifier, which is the Stacks principal of the token
+            contract.
         block_height:
           type: number
           example: 804936
@@ -1759,7 +1773,7 @@ components:
         base:
           type: string
           example: brc20-tx20
-          description: Base currency of the pair
+          description: Contract principal of the base token.
         target:
           type: string
           example: bridged-btc
